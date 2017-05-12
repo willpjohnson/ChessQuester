@@ -93,13 +93,16 @@ module Stepable
     move[0] >= 0 && move[0] <= 7 && move[1] >= 0 && move[1] <= 7
   end
 
-  def moves
-    list_of_moves = move_diffs.map do |move|
+  def list_of_moves
+    move_diffs.map do |move|
       [self.position[0]+move[0],self.position[1]+move[1]]
     end
-    list_of_moves.select! { |move| on_board?(move) }
-    list_of_moves.reject! { |move| board.color_at(move) == self.color }
+  end
 
+  def moves
+    on_board_moves = list_of_moves.select { |move| on_board?(move) }
+    available_moves = on_board_moves.reject { |move| board.color_at(move) == self.color }
+    available_moves
   end
 
   private

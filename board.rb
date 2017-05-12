@@ -67,6 +67,7 @@ class Board
     all_moves = []
     grid.flatten.each do |piece|
       if piece.color == color && piece.class != NullPiece
+        # debugger
         all_moves << piece.moves
       end
     end
@@ -87,6 +88,7 @@ class Board
     enemy_color = :b if color == :w
     # debugger
     all_enemy_moves = check_all_moves(enemy_color)
+    # debugger
     all_enemy_moves.each do |piece_moves|
       next if piece_moves.empty?
       piece_moves.each do |move|
