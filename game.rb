@@ -15,25 +15,40 @@ class Game
 
   def play
     until board.checkmate?(:w) || board.checkmate?(:b)
-      # system('clear')
-      # display.render
-      # display.cursor.get_input
-      start_pos, end_pos = @current_player.get_move
-      board.move_piece(start_pos, end_pos)
+      begin
+        start_pos, end_pos = @current_player.get_move
+        board.move_piece(start_pos, end_pos)
+      rescue PickedWrongColorError
+        puts "Can't pick enemy piece."
+        puts "Please select again:"
+        sleep(1)
+        retry
+      rescue PickedEmptySquareError
+        puts "Can't pick piece at empty square."
+        puts "Please select again:"
+        sleep(1)
+        retry
+      rescue InvalidMoveError
+        puts "Move is not valid."
+        puts "Please select again:"
+        sleep(1)
+        retry
+      end
       swap_turn!
     end
   end
 
-  private
+  # private
   def notify_players
     # notify about check status
   end
 
   def swap_turn!
-    if current_player == player_w
-      current_player = player_b
-    elsif current_player == player_b
-      current_player = player_w
+    # debugger
+    if current_player.color == :w
+      self.current_player = player_b
+    elsif current_player.color == :b
+      self.current_player = player_w
     end
   end
 

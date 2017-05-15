@@ -15,18 +15,18 @@ class Board
 
   def move_piece(start_pos, end_pos)
     if self[start_pos] ==  NullPiece.instance
-      raise ArgumentError.new "No piece at position"
+      raise PickedEmptySquareError.new
+    elsif !self[start_pos].valid_moves.include?(end_pos)
+      raise InvalidMoveError.new
     end
 
-    # unless self[start_pos].valid_moves.include?(end_pos)
-    #   raise ArgumentError.new "Piece can't move that way"
-    # end
+    move_piece!(start_pos, end_pos)
+  end
 
-    # debugger
+  def move_piece!(start_pos, end_pos)
     self[end_pos] = self[start_pos]
     self[end_pos].position = end_pos
     self[start_pos] = NullPiece.instance
-    # debugger
   end
 
   def [](pos)
@@ -151,4 +151,10 @@ class Board
     end
   end
 
+end
+
+class PickedEmptySquareError < StandardError
+end
+
+class InvalidMoveError < StandardError
 end
