@@ -36,6 +36,8 @@ class Game
       end
       swap_turn!
     end
+    puts "Checkmate! #{player_w.name} wins!" if board.checkmate?(:b)
+    puts "Checkmate! #{player_b.name} wins!" if board.checkmate?(:w)
   end
 
   # private

@@ -59,8 +59,19 @@ module Slideable
      [-1,1]]
   end
 
-  def capturable?(move,color)
-    board[move] != nil && board[move].color != color
+  def capturable?(move, color)
+    move_color = board[move].color
+    return false if move_color == nil
+    return false if move_color == color
+    true
+  end
+
+  def same_color?(move, color)
+    board[move].color == color
+  end
+
+  def null_piece?(move)
+    board[move].class == NullPiece
   end
 
   def on_board?(move)
@@ -70,21 +81,42 @@ module Slideable
   def grow_unblocked_moves_in_dir
     total_moves = []
     move_dirs.each do |dir|
-      dir_complete = false
-      move = [self.position[0]+dir[0],self.position[1]+dir[1]]
-      while on_board?(move) && !dir_complete
-        # debugger
-        until board[move].class != NullPiece
-          # debugger
-          total_moves << move if on_board?(move)
-          move = [move[0]+dir[0],move[1]+dir[1]]
+      move = self.position
+      direction_complete = false
+      # debugger
+      until direction_complete
+        move = [move[0]+dir[0], move[1]+dir[1]]
+        if !on_board?(move)
+          direction_complete = true
+        elsif capturable?(move, color)
+          total_moves << move
+          direction_complete = true
+        elsif null_piece?(move)
+          total_moves << move
+          direction_complete = false
+        elsif same_color?(move, color)
+          direction_complete = true
         end
-        total_moves << move if on_board?(move) && capturable?(move,self.color)
-        dir_complete = true
       end
     end
     total_moves
   end
+  # def grow_unblocked_moves_in_dir
+  #   total_moves = []
+  #   move_dirs.each do |dir|
+  #     dir_complete = false
+  #     move = [self.position[0]+dir[0],self.position[1]+dir[1]]
+  #     while on_board?(move) && !dir_complete
+  #       until board[move].class != NullPiece
+  #         total_moves << move if on_board?(move)
+  #         move = [move[0]+dir[0],move[1]+dir[1]]
+  #       end
+  #       total_moves << move if on_board?(move) && capturable?(move,self.color)
+  #       dir_complete = true
+  #     end
+  #   end
+  #   total_moves
+  # end
 
 end
 

@@ -13,6 +13,12 @@ class Board
     make_starting_grid if fill
   end
 
+  def self.all_null_pieces
+    board = Board.new(false)
+    board.grid = Array.new(8) { Array.new(8) { NullPiece.instance }}
+    board
+  end
+
   def move_piece(start_pos, end_pos)
     if self[start_pos] ==  NullPiece.instance
       raise PickedEmptySquareError.new
