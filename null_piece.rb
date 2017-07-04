@@ -1,5 +1,5 @@
-# require_relative 'piece.rb'
 require 'singleton'
+
 class NullPiece
   include Singleton
   attr_reader :color

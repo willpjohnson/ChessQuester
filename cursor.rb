@@ -99,8 +99,8 @@ class Cursor
   end
 
   def update_pos(diff)
-    vertical = @cursor_pos[0]+diff[0]
-    horizontal = @cursor_pos[1]+diff[1]
+    vertical = self.cursor_pos[0]+diff[0]
+    horizontal = self.cursor_pos[1]+diff[1]
     if horizontal > 7 || vertical > 7 || horizontal < 0 || vertical < 0
       @cursor_pos = cursor_pos
     else

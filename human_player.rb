@@ -1,5 +1,4 @@
 require_relative "cursor.rb"
-require 'byebug'
 
 class HumanPlayer
   attr_reader :name, :color, :display

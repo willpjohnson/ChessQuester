@@ -2,6 +2,7 @@ require_relative 'piece.rb'
 
 class Knight < Piece
   include Stepable
+  
   def symbol
     return " ♘ " if self.color == :w
     return " ♞ " if self.color == :b

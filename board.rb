@@ -5,7 +5,8 @@ require_relative "stepping_pieces.rb"
 require_relative "sliding_pieces.rb"
 require_relative "pawn.rb"
 require_relative "cursor.rb"
-require 'byebug'
+require "byebug"
+
 class Board
   attr_accessor :grid
   def initialize(fill = true)
@@ -26,6 +27,12 @@ class Board
       raise InvalidMoveError.new
     end
 
+    if white_castling(start_pos, end_pos)
+      debugger
+      move_piece!([7,7], [7,5])
+    elsif black_castling(start_pos, end_pos)
+      move_piece!([0,7], [0,5])
+    end
     move_piece!(start_pos, end_pos)
   end
 
@@ -48,7 +55,7 @@ class Board
   def color_at(pos)
     self[pos].color
   end
-  
+
   def dup
     board2 = Board.new(false)
 
@@ -148,6 +155,16 @@ class Board
         return [i,j] if self[[i,j]].class == King && self[[i,j]].color == color
       end
     end
+  end
+
+  def white_castling(start_pos, end_pos)
+    return true if self[start_pos].class == King && start_pos == [7,4] && end_pos == [7,6]
+    false
+  end
+
+  def black_castling(start_pos, end_pos)
+    return true if self[start_pos].class == King && start_pos == [0,4] && end_pos == [0,6]
+    false
   end
 
 end

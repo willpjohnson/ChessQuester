@@ -1,5 +1,4 @@
 require_relative 'piece.rb'
-require 'byebug'
 
 class Pawn < Piece
   def symbol

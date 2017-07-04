@@ -1,6 +1,6 @@
 require_relative "board.rb"
 require_relative "human_player.rb"
-require 'byebug'
+
 class Game
   attr_accessor :board, :current_player, :display
   attr_reader :player_w, :player_b
@@ -14,7 +14,7 @@ class Game
     until board.checkmate?(:w) || board.checkmate?(:b)
       begin
         notify_players if in_check?
-        start_pos, end_pos = @current_player.get_move
+        start_pos, end_pos = self.current_player.get_move
         board.move_piece(start_pos, end_pos)
       rescue PickedWrongColorError
         puts "Can't pick enemy piece."
@@ -78,10 +78,10 @@ class Game
   end
 
   def notify_players
-    if @board.in_check?(:b)
-      puts "#{@player_b.name} is in check!"
-    elsif @board.in_check?(:w)
-      puts "#{@player_w.name} is in check!"
+    if self.board.in_check?(:b)
+      puts "#{self.player_b.name} is in check!"
+    elsif self.board.in_check?(:w)
+      puts "#{self.player_w.name} is in check!"
     end
     sleep(1)
   end

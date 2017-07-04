@@ -33,7 +33,7 @@ class Queen < Piece
     return " ♛ " if self.color == :b
   end
 
-  # protected
+  protected
   def move_dirs
     horizontal_dirs + diagonal_dirs
   end

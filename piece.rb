@@ -1,5 +1,3 @@
-# require_relative 'board.rb'
-require 'byebug'
 class Piece
   attr_reader :color
   attr_accessor :position, :board
@@ -100,23 +98,6 @@ module Slideable
     end
     total_moves
   end
-  # def grow_unblocked_moves_in_dir
-  #   total_moves = []
-  #   move_dirs.each do |dir|
-  #     dir_complete = false
-  #     move = [self.position[0]+dir[0],self.position[1]+dir[1]]
-  #     while on_board?(move) && !dir_complete
-  #       until board[move].class != NullPiece
-  #         total_moves << move if on_board?(move)
-  #         move = [move[0]+dir[0],move[1]+dir[1]]
-  #       end
-  #       total_moves << move if on_board?(move) && capturable?(move,self.color)
-  #       dir_complete = true
-  #     end
-  #   end
-  #   total_moves
-  # end
-
 end
 
 module Stepable
@@ -133,7 +114,28 @@ module Stepable
   def moves
     on_board_moves = list_of_moves.select { |move| on_board?(move) }
     available_moves = on_board_moves.reject { |move| board.color_at(move) == self.color }
+    available_moves << castle_move if castleable?
     available_moves
+  end
+
+  def castleable?
+    return false if self.class != King
+    if self.color == :w
+      return false if self.position != board[[7,4]] && board[[7,7]].class != Rook
+      return false unless board[[7,5]].class == NullPiece && board[[7,6]].class == NullPiece
+    elsif self.color == :b
+      return false if self.position != board[[0,4]] && board[[0,7]].class != Rook
+      return false unless board[[0,5]].class == NullPiece && board[[0,6]].class == NullPiece
+    end
+    true
+  end
+
+  def castle_move
+    if color == :w
+      [7,6]
+    elsif color == :b
+      [0,6]
+    end
   end
 
   private
