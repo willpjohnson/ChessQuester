@@ -48,10 +48,7 @@ class Board
   def color_at(pos)
     self[pos].color
   end
-
-  # def deep_dup(arr)
-  #   arr.map{|el| el.is_a?(Array) ? deep_dup(el) : el}
-  # end
+  
   def dup
     board2 = Board.new(false)
 
@@ -73,7 +70,6 @@ class Board
     all_moves = []
     grid.flatten.each do |piece|
       if piece.color == color && piece.class != NullPiece
-        # debugger
         all_moves << piece.moves
       end
     end
@@ -92,9 +88,7 @@ class Board
     king_pos = find_king(color)
     enemy_color = :w if color == :b
     enemy_color = :b if color == :w
-    # debugger
     all_enemy_moves = check_all_moves(enemy_color)
-    # debugger
     all_enemy_moves.each do |piece_moves|
       next if piece_moves.empty?
       piece_moves.each do |move|
@@ -110,7 +104,6 @@ class Board
     all_pieces = check_all_pieces(color)
     all_pieces.each do |piece|
       return false unless piece.valid_moves.empty?
-      # debugger
     end
     true
   end

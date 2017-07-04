@@ -16,7 +16,6 @@ class Display
   PIECE_HASH = {}
 
   def render
-    # debugger
     @cursor.board.grid.each_with_index do |row, row_index|
       row_render = []
       row.each_with_index do |square, index|

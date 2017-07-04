@@ -50,12 +50,10 @@ class Pawn < Piece
       diags << [self.position[0]-1,self.position[1]+1] if on_board?([self.position[0]-1,self.position[1]+1])
       diags << [self.position[0]-1,self.position[1]-1] if on_board?([self.position[0]-1,self.position[1]-1])
     end
-    # debugger
 
     good_diags = diags.reject do |pos|
       board[pos].color == self.color || board[pos].class == NullPiece
     end
-    # debugger
     good_diags
   end
 

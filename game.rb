@@ -7,15 +7,13 @@ class Game
   def initialize
     @board = Board.new
     @display = Display.new(self.board)
-    # debugger
-    @player_w = HumanPlayer.new("Will",:w,self.display)
-    @player_b = HumanPlayer.new("Tron",:b,self.display)
-    @current_player = @player_w
   end
 
   def play
+    intro
     until board.checkmate?(:w) || board.checkmate?(:b)
       begin
+        notify_players if in_check?
         start_pos, end_pos = @current_player.get_move
         board.move_piece(start_pos, end_pos)
       rescue PickedWrongColorError
@@ -40,13 +38,55 @@ class Game
     puts "Checkmate! #{player_b.name} wins!" if board.checkmate?(:w)
   end
 
-  # private
+  private
+  def intro
+    system('clear')
+    puts "        /$$$$$$  /$$
+       /$$__  $$| $$
+      | $$  \__/| $$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$$
+      | $$      | $$__  $$ /$$__  $$ /$$_____//$$_____/
+      | $$      | $$  \ $$| $$$$$$$$|  $$$$$$|  $$$$$$
+      | $$    $$| $$  | $$| $$_____/ \____  $$\____  $$
+      |  $$$$$$/| $$  | $$|  $$$$$$$ /$$$$$$$//$$$$$$$/
+       \______/ |__/  |__/ \_______/|_______/|_______/
+
+
+
+  /$$$$$$                                 /$$
+ /$$__  $$                               | $$
+| $$  \ $$ /$$   /$$  /$$$$$$   /$$$$$$$/$$$$$$    /$$$$$$   /$$$$$$
+| $$  | $$| $$  | $$ /$$__  $$ /$$_____/_  $$_/   /$$__  $$ /$$__  $$
+| $$  | $$| $$  | $$| $$$$$$$$|  $$$$$$  | $$    | $$$$$$$$| $$  \__/
+| $$/$$ $$| $$  | $$| $$_____/ \____  $$ | $$ /$$| $$_____/| $$
+|  $$$$$$/|  $$$$$$/|  $$$$$$$ /$$$$$$$/ |  $$$$/|  $$$$$$$| $$
+ \____ $$$ \______/  \_______/|_______/   \___/   \_______/|__/
+      \__/
+
+                                                                     "
+    puts "Player 1 (white):"
+    name1 = gets.chomp
+    puts "Player 2 (black):"
+    name2 = gets.chomp
+    @player_w = HumanPlayer.new(name1,:w,self.display)
+    @player_b = HumanPlayer.new(name2,:b,self.display)
+    @current_player = @player_w
+    system('clear')
+  end
+
+  def in_check?
+    @board.in_check?(:b) || @board.in_check?(:w)
+  end
+
   def notify_players
-    # notify about check status
+    if @board.in_check?(:b)
+      puts "#{@player_b.name} is in check!"
+    elsif @board.in_check?(:w)
+      puts "#{@player_w.name} is in check!"
+    end
+    sleep(1)
   end
 
   def swap_turn!
-    # debugger
     if current_player.color == :w
       self.current_player = player_b
     elsif current_player.color == :b

@@ -22,8 +22,6 @@ class HumanPlayer
       display.render
       puts "#{name}, select your piece:"
       start_pos = display.cursor.get_input
-      # debugger
-      # raise PickedWrongColorError if wrong_color?(start_pos)
     end
     raise PickedWrongColorError if wrong_color?(start_pos)
     until end_pos

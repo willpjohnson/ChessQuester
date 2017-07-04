@@ -83,7 +83,6 @@ module Slideable
     move_dirs.each do |dir|
       move = self.position
       direction_complete = false
-      # debugger
       until direction_complete
         move = [move[0]+dir[0], move[1]+dir[1]]
         if !on_board?(move)
