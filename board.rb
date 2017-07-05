@@ -5,7 +5,6 @@ require_relative "stepping_pieces.rb"
 require_relative "sliding_pieces.rb"
 require_relative "pawn.rb"
 require_relative "cursor.rb"
-require "byebug"
 
 class Board
   attr_accessor :grid
@@ -28,7 +27,6 @@ class Board
     end
 
     if white_castling(start_pos, end_pos)
-      debugger
       move_piece!([7,7], [7,5])
     elsif black_castling(start_pos, end_pos)
       move_piece!([0,7], [0,5])
