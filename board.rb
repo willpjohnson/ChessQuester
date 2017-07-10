@@ -1,9 +1,9 @@
-require_relative "piece.rb"
-require_relative "null_piece.rb"
+require_relative "pieces/piece.rb"
+require_relative "pieces/null_piece.rb"
+require_relative "pieces/stepping_pieces.rb"
+require_relative "pieces/sliding_pieces.rb"
+require_relative "pieces/pawn.rb"
 require_relative "display.rb"
-require_relative "stepping_pieces.rb"
-require_relative "sliding_pieces.rb"
-require_relative "pawn.rb"
 require_relative "cursor.rb"
 
 class Board
